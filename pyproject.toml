@@ -1,0 +1,57 @@
+[project]
+dependencies = [
+  "dotenv>=0.9.9",
+  "pydantic>=2.10.6",
+  "taskipy>=1.14.1",
+  "fastapi[standard]>=0.115.12",
+  "gunicorn>=23.0.0",
+  "psycopg[binary]>=3.2.7",
+  "redis>=6.0.0",
+  "sqlacodegen>=3.0.0",
+  "sqlalchemy>=2.0.40",
+  "uvicorn>=0.34.2",
+  "loguru>=0.7.3",
+  "requests>=2.32.5",
+  "sqlmodel>=0.0.24",
+  "pytz>=2025.2",
+]
+name = "estudo-logs-newgate"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+[dependency-groups]
+dev = ["pytest>=8.3.5", "ruff>=0.11.0", "taskipy>=1.14.1"]
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+[tool.ruff.format]
+preview = true
+quote-style = "double"
+
+[tool.ruff.lint]
+preview = true
+select = [
+  "I",
+  "F",
+  "E",
+  "W",
+  "PL",
+  "PT",
+  "N",
+  "FURB",
+  "FAST",
+  "RUF",
+  "ARG",
+  "PTH",
+]
+ignore = ["PLR0914"]
+fixable = ["ALL"]
+
+[tool.taskipy.tasks]
+dev = "uv run fastapi dev app/main.py --port 3000"
+prd = "uv run gunicorn -c gunicorn.conf.py"
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
