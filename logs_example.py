@@ -1,10 +1,6 @@
 import sys
-from datetime import timedelta, timezone
 
 from loguru import logger
-
-# UTC-3
-UTC_MINUS_3 = timezone(timedelta(hours=-3))
 
 logger.remove()  # remove handlers padrão
 
@@ -30,7 +26,7 @@ logger.add(
     serialize=True,  # gera saída JSON estruturada
     enqueue=True,
     catch=True,
-    rotation="10 MB",  # rota arquivos grandes
+    rotation="10 MB",  # rotation de arquivos grandes
     retention="7 days",  # mantém logs por 7 dias
     compression="zip",  # comprime logs antigos
 )
