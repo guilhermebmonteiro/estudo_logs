@@ -6,14 +6,12 @@ from loguru import logger
 
 from app.core.config import settings
 
-INFO_LEVEL = 20
-
 
 def send_log_to_loki(record: dict):
-    """Envia um log formatado para o Loki."""
+    """Send log to loki."""
     timestamp = str(int(time.time() * 1_000_000_000))  # nanoseconds
 
-    # montando labels para Loki
+    # building labels to Loki
     labels = {
         "language": "python",
         "source": "fastapi",
@@ -22,7 +20,7 @@ def send_log_to_loki(record: dict):
         "function": record["function"],
     }
 
-    # O valor será o log inteiro formatado
+    # logging line format
     log_line = (
         f"{record['time'].strftime('%Y-%m-%d %H:%M:%S')} | "
         f"{record['level'].name:<8} | "
@@ -83,12 +81,9 @@ def setup_logging():
         compression="zip",
     )
 
-    # Enviar INFO+ para o Loki com todos os detalhes
+    # third sink -> send to Loki
     def loguru_to_loki(message):
-        record = message.record
-        if record["level"].no >= INFO_LEVEL:
-            send_log_to_loki(record)
+        send_log_to_loki(message.record)
 
     logger.add(loguru_to_loki, level="INFO", enqueue=True, catch=True)
-
     return logger
