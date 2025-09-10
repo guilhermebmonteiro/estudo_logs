@@ -7,6 +7,16 @@ from loguru import logger
 from app.core.config import settings
 
 
+def mask_sensitive(value: str, show_last: int = 2) -> str:
+    """Mascarar valor sensível, mantendo apenas os últimos caracteres."""
+    if not value:
+        return value
+    masked_len = len(value) - show_last
+    if masked_len <= 0:
+        return "*" * len(value)
+    return "*" * masked_len + value[-show_last:]
+
+
 def send_log_to_loki(record: dict):
     """Send log to loki."""
     timestamp = str(int(time.time() * 1_000_000_000))  # nanoseconds

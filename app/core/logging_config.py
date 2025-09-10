@@ -10,6 +10,16 @@ import httpx
 from app.core.config import settings
 
 
+def mask_sensitive(value: str, show_last: int = 2) -> str:
+    """Mascarar valor sensível, mantendo apenas os últimos caracteres."""
+    if not value:
+        return value
+    masked_len = len(value) - show_last
+    if masked_len <= 0:
+        return "*" * len(value)
+    return "*" * masked_len + value[-show_last:]
+
+
 class LokiHandler(logging.Handler):
     def emit(self, record):
         try:
