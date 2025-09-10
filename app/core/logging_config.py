@@ -64,6 +64,8 @@ class ColorFormatter(logging.Formatter):
 
 def setup_logging():
     logger = logging.getLogger("myapp")
+    if logger.handlers:  # se já tiver handlers, retorna
+        return logger
     logger.setLevel(logging.DEBUG)
 
     base_fmt = logging.Formatter(
