@@ -52,7 +52,7 @@ ignore = ["PLR0914"]
 fixable = ["ALL"]
 
 [tool.taskipy.tasks]
-dev = "uv run fastapi dev app/main.py --port 3000"
+dev = "uv run fastapi dev app/main.py --port 4000"
 prd = "uv run gunicorn -c gunicorn.conf.py"
 lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
