@@ -19,7 +19,6 @@ def send_log_to_loki(record: dict):
         "file": record["file"].name,
         "function": record["function"],
     }
-
     # logging line format
     log_line = (
         f"{record['time'].strftime('%Y-%m-%d %H:%M:%S')} | "
